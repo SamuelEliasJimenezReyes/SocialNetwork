@@ -1,4 +1,5 @@
 using SocialNetwork.Infraestructure.Persistence;
+using SocialNetwork.Infraestructure.Identity;
 using SocialNetwork.Core.Application;
 
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddPersistenceInfraestructure(builder.Configuration);
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
 builder.Services.AddAplicationLayer(builder.Configuration);
 
 
@@ -26,6 +28,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",

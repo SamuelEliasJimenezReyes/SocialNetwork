@@ -19,9 +19,9 @@
 
   <ItemGroup>
     <Folder Include="Dtos\" />
-    <Folder Include="Enums\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Interfaces\" />
+    <Folder Include="Interfaces\Services\" />
+    <Folder Include="Interfaces\Repositories\" />
     <Folder Include="Mappings\Entites\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Services\" />
