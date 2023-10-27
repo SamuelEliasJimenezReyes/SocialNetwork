@@ -16,8 +16,8 @@ namespace SocialNetwork.Infraestructure.Identity.Seeds
             AplicationUsers defaultUser = new();
             defaultUser.UserName = "superadminuser";
             defaultUser.Email = "superadminuser@email.com";
-            defaultUser.FirstName = "John";
-            defaultUser.LastName = "Doe";
+            defaultUser.FirstName = "Samuel";
+            defaultUser.LastName = "Jimenez";
             defaultUser.EmailConfirmed = true;
             defaultUser.PhoneNumberConfirmed = true;
 

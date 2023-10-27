@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SocialNetwork.Core.Application.Interfaces.Repositories;
 using SocialNetwork.Infraestructure.Persistence.Contexts;
+using SocialNetwork.Infraestructure.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace SocialNetwork.Infraestructure.Persistence
 {
     public static class ServicesRegistation
     {
-        public static void AddPersistenceInfraestructure(this IServiceCollection services, IConfiguration configuration)
+        public static void AddPersistenceInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             #region Contexts 
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
@@ -28,6 +30,7 @@ namespace SocialNetwork.Infraestructure.Persistence
             #endregion
 
             #region Repositories
+            services.AddTransient(typeof(IGenericRepository<>), typeof(BaseRepository<>));
             #endregion 
         }
 

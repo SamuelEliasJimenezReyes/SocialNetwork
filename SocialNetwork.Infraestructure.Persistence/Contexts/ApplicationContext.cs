@@ -10,17 +10,15 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Friends> Friends { get; set; }
         public DbSet<Publications> Publications { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
-
+     
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Table
-            modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Friends>().ToTable("Friends");
             modelBuilder.Entity<Publications>().ToTable("Publications");
             #endregion
@@ -28,7 +26,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
             #region Keys
 
             #region Primary Keys
-            modelBuilder.Entity<User>().HasKey(x=>x.ID);
             modelBuilder.Entity<Friends>().HasKey(x=>x.ID);
             modelBuilder.Entity<Publications>().HasKey(x=>x.ID);
             #endregion
@@ -48,7 +45,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
             #endregion
 
             #region Querys
-            modelBuilder.Entity<User>().HasQueryFilter(x=>!x.IsDeleted);
             modelBuilder.Entity<Friends>().HasQueryFilter(x=>!x.IsDeleted);
             modelBuilder.Entity<Publications>().HasQueryFilter(x=>!x.IsDeleted);
             #endregion 

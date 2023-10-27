@@ -15,7 +15,6 @@ namespace SocialNetwork.Core.Domain.Entites
 
 
         //Navigation Propierties
-        public int UserID { get; set; }
-        public User User { get; set; }
+        public string UserID { get; set; }
     }
 }
