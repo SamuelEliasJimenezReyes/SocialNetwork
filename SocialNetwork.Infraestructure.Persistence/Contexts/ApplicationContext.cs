@@ -33,15 +33,7 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
             #region Relations
 
             #endregion
-            modelBuilder.Entity<Publications>()
-                        .HasOne(x => x.User)
-                        .WithMany(x => x.Publications)
-                        .HasForeignKey(x => x.UserID);
 
-            modelBuilder.Entity<Friends>()
-                        .HasOne(x => x.User)
-                        .WithMany(u => u.Friends)
-                        .HasForeignKey(x => x.UserID);
             #endregion
 
             #region Querys

@@ -12,8 +12,8 @@ using SocialNetwork.Infraestructure.Identity.Contexts;
 namespace SocialNetwork.Infraestructure.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20231022070834_Initial")]
-    partial class Initial
+    [Migration("20231028032855_InitialV2")]
+    partial class InitialV2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,6 +232,9 @@ namespace SocialNetwork.Infraestructure.Identity.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")

@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.Models;
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Core.Application.Interfaces.Repositories;
+using SocialNetwork.Core.Application.Interfaces.Services;
 
 namespace SocialNetwork.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+     private readonly IPublicationService _service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IPublicationService service)
         {
-            _logger = logger;
+            _service = service;
         }
 
         public IActionResult Index()
@@ -18,15 +20,5 @@ namespace SocialNetwork.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

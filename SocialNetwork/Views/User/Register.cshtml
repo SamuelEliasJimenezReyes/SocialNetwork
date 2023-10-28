@@ -21,13 +21,20 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     }
-                    <form method="post" asp-controller="User" asp-action="Register">
+                    <form method="post" asp-controller="User" asp-action="Register" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label asp-for="File" class="form-label">Upload File:</label>
+                            <input required asp-for="File" class="form-control" />
+                            <span asp-validation-for="File" class="text-danger"></span>
+                        </div>
 
                         <div class="mb-3">
                             <label asp-for="FirstName" class="form-label">Name: </label>
                             <input asp-for="FirstName" class="form-control" />
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
+
                         <div class="mb-3">
                             <label asp-for="LastName" class="form-label">Last Name: </label>
                             <input asp-for="LastName" class="form-control" />
