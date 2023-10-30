@@ -18,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappings\Entites\" />
+    <ProjectReference Include="..\SocialNetwork.Core.Domain\SocialNetwork.Core.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SocialNetwork.Core.Domain\SocialNetwork.Core.Domain.csproj" />
+    <Folder Include="Mappings\Entites\" />
   </ItemGroup>
 
 </Project>

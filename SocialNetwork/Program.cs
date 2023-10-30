@@ -6,11 +6,13 @@ using SocialNetwork.Infraestructure.Identity.Seeds;
 using Microsoft.AspNetCore.Identity;
 using WebApp.SocialNetwork.Middlewares;
 using SocialNetwork.Infraestructure.Shared;
+using SocialNetwork.Core.Application.Dtos.Account;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
+builder.Services.AddTransient<AuthenticationResponse>(); 
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
 builder.Services.AddSharedInfrastructure(builder.Configuration);
@@ -24,7 +26,7 @@ var app = builder.Build();
 app.UseSession(); 
 
 using (var scope = app.Services.CreateScope())
-{
+{ 
     var services = scope.ServiceProvider;
 
     try
@@ -54,8 +56,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

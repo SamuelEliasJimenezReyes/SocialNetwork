@@ -5,7 +5,7 @@ using SocialNetwork.Infraestructure.Identity.Entites;
 
 namespace SocialNetwork.Infraestructure.Identity.Contexts
 {
-    public class IdentityContext : IdentityDbContext
+    public class IdentityContext : IdentityDbContext<AplicationUsers>
     {
         public IdentityContext(DbContextOptions<IdentityContext> options) : base(options) { }
 

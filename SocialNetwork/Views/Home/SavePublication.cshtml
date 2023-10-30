@@ -1,0 +1,26 @@
+﻿@using SocialNetwork.Core.Application.ViewModels.Publications;
+@model SavePublicationViewModel
+ 
+
+<form method="post" asp-controller="Home" asp-action="Create" enctype="multipart/form-data">
+    
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label">Publication Content </label>
+        <input type="text" asp-for="Content" class="form-control" />
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="File" class="form-label">Upload File:</label>
+        <input required asp-for="File" class="form-control" />
+        <span asp-validation-for="File" class="text-danger"></span>
+    </div>
+
+    <input asp-for="PublishDate"  hidden/>
+
+    <button type="submit" class="btn btn-outline-success">Save</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-warning">Go Back</a>
+
+</form>
+

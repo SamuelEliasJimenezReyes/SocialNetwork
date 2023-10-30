@@ -30,13 +30,15 @@ namespace SocialNetwork.Core.Application.Services
 
         public override async Task<SavePublicationViewModel> Add(SavePublicationViewModel vm)
         {
-            vm.UserID = userViewModel.Id;
+            userViewModel.Id = vm.UserID;
+            //vm.UserID = userViewModel.Id;
             return await base.Add(vm);
         }
 
         public override async Task Update(SavePublicationViewModel vm, int id)
         {
-            vm.UserID = userViewModel.Id;
+            userViewModel.Id=vm.UserID;
+            //vm.UserID = userViewModel.Id;
             await base.Update(vm, id);
         }
 

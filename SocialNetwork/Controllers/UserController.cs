@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Core.Application.Dtos.Account;
 using SocialNetwork.Core.Application.Helpers;
 using SocialNetwork.Core.Application.Interfaces.Services;
@@ -69,15 +68,11 @@ namespace WebApp.SocialNetwork.Controllers
                 return View(vm);
             }
 
-            //if (vm.File == null || string.IsNullOrEmpty(vm.Email))
-            //{
-            //    return View(vm); 
-            //}
-
             var origin = Request.Headers["origin"];
 
 
             vm.ImagePath = UploadFile(vm.File, vm.Email);
+
             RegisterResponse response = await _userService.RegisterAsync(vm, origin);
 
             if (response.HasError)
@@ -161,7 +156,7 @@ namespace WebApp.SocialNetwork.Controllers
                     return imagePath;
                 }
             }
-            string basePath = $"/Images/Products/{Email}";
+            string basePath = $"/Images/Users/{Email}";
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
             //create folder if not exist

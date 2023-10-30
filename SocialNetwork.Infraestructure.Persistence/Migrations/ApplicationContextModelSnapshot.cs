@@ -37,14 +37,18 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PublicationsID")
+                    b.Property<int>("PublicationID")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("PublicationsID");
+                    b.HasIndex("PublicationID");
 
-                    b.ToTable("Coments");
+                    b.ToTable("Coments", (string)null);
                 });
 
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Friends", b =>
@@ -79,6 +83,21 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                     b.ToTable("Friends", (string)null);
                 });
 
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.FriendsComents", b =>
+                {
+                    b.Property<int>("ComentID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FriendID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComentID", "FriendID");
+
+                    b.HasIndex("FriendID");
+
+                    b.ToTable("FriendsComents", (string)null);
+                });
+
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Publications", b =>
                 {
                     b.Property<int>("ID")
@@ -94,8 +113,14 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("PublishDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserID")
                         .IsRequired()
@@ -108,9 +133,42 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
 
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Coments", b =>
                 {
-                    b.HasOne("SocialNetwork.Core.Domain.Entites.Publications", null)
+                    b.HasOne("SocialNetwork.Core.Domain.Entites.Publications", "Publication")
                         .WithMany("Coments")
-                        .HasForeignKey("PublicationsID");
+                        .HasForeignKey("PublicationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.FriendsComents", b =>
+                {
+                    b.HasOne("SocialNetwork.Core.Domain.Entites.Coments", "Coments")
+                        .WithMany("FriendComent")
+                        .HasForeignKey("ComentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetwork.Core.Domain.Entites.Friends", "Friends")
+                        .WithMany("FriendComents")
+                        .HasForeignKey("FriendID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coments");
+
+                    b.Navigation("Friends");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Coments", b =>
+                {
+                    b.Navigation("FriendComent");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Friends", b =>
+                {
+                    b.Navigation("FriendComents");
                 });
 
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Publications", b =>

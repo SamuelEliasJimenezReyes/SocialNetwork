@@ -1,0 +1,48 @@
+﻿@using SocialNetwork.Core.Application.ViewModels.Publications;
+@model SavePublicationViewModel
+@using Microsoft.AspNetCore.Http;
+@using SocialNetwork.Core.Application.Dtos.Account;
+@using SocialNetwork.Core.Application.Helpers;
+@using SocialNetwork.Core.Application.ViewModels.Publications;
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    bool editMode = Model.ID == 0 ? false : true;
+    ViewData["Title"] = "Editing Publications";
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var isAdmin = User != null ? User.Roles.Any(r => r == "Admin") : false;
+    var isBasic = User != null ? User.Roles.Any(r => r == "Basic") : false;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="fw-bold">Editing a publication</h1>
+    </div>
+
+    <div class="card-body">
+
+        <form method="post" asp-controller="Publication" asp-action="Edit" enctype="multipart/form-data">
+ 
+            <div class="mb-3">
+                <label asp-for="Content" class="form-label">Publication Content </label>
+                <input type="text" asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-3">
+                <label asp-for="File" class="form-label">Upload File:</label>
+                <input required asp-for="File" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+
+            <input asp-for="PublishDate"  hidden/>
+            <input asp-for="UserID" value=@User.Id type="hidden" />
+
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-warning">Go Back</a>
+
+
+        </form>
+    </div>
+
+</div>
