@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialNetwork.Core.Application.ViewModels.Publications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace SocialNetwork.Core.Application.ViewModels.Friend
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string UserID { get; set; }
+
+        public List<PublicationsViewModel> Publications { get; set; }
 
     }
 }

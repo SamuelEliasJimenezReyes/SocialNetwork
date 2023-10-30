@@ -4,10 +4,12 @@ using SocialNetwork.Core.Application.Dtos.Account;
 using SocialNetwork.Core.Application.Dtos.Email;
 using SocialNetwork.Core.Application.Enums;
 using SocialNetwork.Core.Application.Interfaces.Services;
+using SocialNetwork.Core.Application.ViewModels.Friend;
 using SocialNetwork.Infraestructure.Identity.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -108,7 +110,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
                 await _emailService.SendAsync(new EmailRequest()
                 {
                     To = user.Email,
-                    Body = $"Please confirm your account visiting this URL {verificationUri}",
+                    Body = @$"<a href={ verificationUri }>Confirm your Mail</a>",
                     Subject = "Confirm registration"
                 });
             }
@@ -162,7 +164,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             await _emailService.SendAsync(new EmailRequest()
             {
                 To = user.Email,
-                Body = $"Please reset your account visiting this URL {verificationUri}",
+                Body = @$"<a href={verificationUri}>Please Reset your Password</a> ",
                 Subject = "reset password"
             });
 
@@ -222,5 +224,11 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             return verificationUri;
         }
 
+        public async Task<RegisterRequest> GetByUserName(RegisterRequest value)
+        {
+            var result = await _userManager.FindByNameAsync(value.UserName);
+
+            return result;
+        }
     }
 }

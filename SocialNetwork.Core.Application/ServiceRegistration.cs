@@ -14,6 +14,7 @@ namespace SocialNetwork.Core.Application
             services.AddTransient(typeof(IBaseService<,,>), typeof(GenericService<,,>));
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IPublicationService, PublicationService>();
+            services.AddScoped<IFriendService, FriendService>();
             #endregion
         }
     }

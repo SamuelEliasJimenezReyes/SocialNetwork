@@ -15,5 +15,7 @@ namespace SocialNetwork.Core.Application.Interfaces.Services
         Task<RegisterResponse> RegisterBasicUserAsync(RegisterRequest request, string origin);
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request);
         Task SignOutAsync();
+
+        Task<string> GetByUserName(RegisterRequest value);
     }
 }

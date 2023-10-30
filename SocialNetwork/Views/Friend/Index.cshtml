@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using SocialNetwork.Core.Application.Dtos.Account;
+@using SocialNetwork.Core.Application.Helpers;
+@using SocialNetwork.Core.Application.ViewModels.Friend;
+@model RegisterRequest
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var isAdmin = User != null ? User.Roles.Any(r => r == "Admin") : false;
+    var isBasic = User != null ? User.Roles.Any(r => r == "Basic") : false;
+}
+<div class="container">
+
+</div>
