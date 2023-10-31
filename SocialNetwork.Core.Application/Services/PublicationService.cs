@@ -19,7 +19,7 @@ namespace SocialNetwork.Core.Application.Services
         private readonly IAccountService _accountService;
         private readonly IFriendService _friendService;
 
-        public PublicationService(IPublicationRepository repository, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel, IMapper mapper, IAccountService accountService, IFriendService friendService) : base(repository, mapper)
+        public PublicationService(IPublicationRepository repository, IHttpContextAccessor httpContextAccessor, IMapper mapper, IAccountService accountService, IFriendService friendService) : base(repository, mapper)
         {
             _repository = repository;
             _httpContextAccessor = httpContextAccessor;
@@ -31,13 +31,14 @@ namespace SocialNetwork.Core.Application.Services
 
         public override async Task<SavePublicationViewModel> Add(SavePublicationViewModel vm)
         {
-            userViewModel.Id = vm.UserID;
+            //userViewModel.Id = vm.UserID;
+            ////vm.UserID = userViewModel.Id;
             return await base.Add(vm);
         }
 
         public override async Task Update(SavePublicationViewModel vm, int id)
         {
-            userViewModel.Id=vm.UserID;
+            //userViewModel.Id=vm.UserID;
             await base.Update(vm, id);
         }
 
@@ -72,6 +73,23 @@ namespace SocialNetwork.Core.Application.Services
             return publicationsList.OrderByDescending(x => x.PublishDate).ToList();
         }
 
+        public async Task<List<PublicationsViewModel>> GetUserPublications()
+        {
+            var list = await _repository.GetAllAsync();
+
+            return list
+                .Where(x=>x.UserID==userViewModel.Id)
+                .Select(x=> new PublicationsViewModel
+                {
+
+                    UserID = x.UserID,
+                    PublishDate=x.PublishDate,
+                    Content=x.Content,
+
+                }).OrderByDescending(x=>x.PublishDate)
+                .ToList();
+
+        }
 
     }
 }

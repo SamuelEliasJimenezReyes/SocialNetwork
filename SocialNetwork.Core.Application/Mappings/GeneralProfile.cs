@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using SocialNetwork.Core.Domain.Entites;
 using SocialNetwork.Core.Application.ViewModels.Publications;
+using SocialNetwork.Core.Application.ViewModels.Friend;
 
 namespace SocialNetwork.Core.Application.Mappings
 {
@@ -38,6 +39,15 @@ namespace SocialNetwork.Core.Application.Mappings
             #endregion
 
             #region FriendProfile
+            CreateMap<Friends, AddFriendViewModel>()
+                        .ReverseMap()
+                        .ForMember(x => x.ID, z => z.Ignore())
+                        .ForMember(x => x.IsDeleted, z => z.Ignore());
+            CreateMap<Friends, FriendViewModel>()
+                        .ReverseMap()
+                        .ForMember(x => x.IsDeleted, z => z.Ignore())
+                        .ForMember(x => x.ID, z => z.Ignore())
+                        .ForMember(x => x.ID, z => z.Ignore());
 
             #endregion
 

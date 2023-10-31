@@ -11,5 +11,6 @@ namespace SocialNetwork.Core.Application.Interfaces.Services
     public interface IPublicationService : IBaseService<SavePublicationViewModel,PublicationsViewModel,Publications> 
     {
        Task<List<FriendsPublicationViewModel>> GetAllByFriend(string UserName);
+        Task<List<PublicationsViewModel>> GetUserPublications();
     }
 }

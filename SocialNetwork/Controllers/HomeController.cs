@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Core.Application.Interfaces.Repositories;
 using SocialNetwork.Core.Application.Interfaces.Services;
+using SocialNetwork.Core.Application.Helpers;
 using SocialNetwork.Core.Application.ViewModels.Publications;
+using SocialNetwork.Core.Application.Dtos.Account;
+using Microsoft.AspNetCore.Http;
 
 namespace SocialNetwork.Controllers
 {
@@ -10,15 +13,23 @@ namespace SocialNetwork.Controllers
     public class HomeController : Controller
     {
         private readonly IPublicationService _service;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly AuthenticationResponse userViewModel;
 
-        public HomeController(IPublicationService service)
+        public HomeController(IPublicationService service, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel)
         {
             _service = service;
+            _httpContextAccessor = httpContextAccessor;
+            this.userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+
         }
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.Publications = await _service.GetAllViewModel();
+            var list = await _service.GetUserPublications();
+
+            ViewBag.Publications = list.Where(x=>x.UserID==userViewModel.Id);
+            
             return View();
         }
 

@@ -17,28 +17,27 @@ namespace WebApp.SocialNetwork.Controllers
             _accountService = accountService;
         }
 
-        public async Task<IActionResult> Index() => View(await _service.GetAllViewModel());
+        public async Task<IActionResult> Index() 
+        {
+
+            ViewBag.Friends = await _service.GetAllFriends();
+            return View(new AddFriendViewModel () ); 
+        }
 
 
         [HttpPost]
-        public async Task<IActionResult> Find()
+        public async Task<IActionResult> Add(AddFriendViewModel vm)
         {
-            
-            return View();
-        }
-        public async Task<IActionResult> Add(string UserName)
-        {
-            var obj = await _accountService.GetByUserName(UserName);
+            var obj = await _accountService.GetByUserName(vm.UserName);
 
-            AddFriendViewModel vm = new()
-            {
-                Name=obj.FirstName,
-                LastName= obj.LastName,
-                UserName= obj.UserName,
-            };
+
+            vm.Name = obj.FirstName;
+            vm.LastName = obj.LastName;
+            vm.UserName = obj.UserName;
+
             ViewBag.Friends = await _service.Add(vm);
 
-            return View("Index");
+            return View("Index",vm);
         }
 
 
