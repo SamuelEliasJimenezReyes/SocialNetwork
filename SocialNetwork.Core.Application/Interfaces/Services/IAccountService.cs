@@ -1,9 +1,4 @@
 ﻿using SocialNetwork.Core.Application.Dtos.Account;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Core.Application.Interfaces.Services
 {
@@ -16,6 +11,6 @@ namespace SocialNetwork.Core.Application.Interfaces.Services
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request);
         Task SignOutAsync();
 
-        Task<string> GetByUserName(RegisterRequest value);
+        Task<RegisterRequest> GetByUserName(string UserName);
     }
 }

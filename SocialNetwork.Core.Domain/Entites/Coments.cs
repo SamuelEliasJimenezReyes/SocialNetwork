@@ -10,7 +10,6 @@ namespace SocialNetwork.Core.Domain.Entites
         public string UserID { get; set; }
         public int PublicationID { get; set; }
         public Publications Publication { get; set; }
-        public ICollection<FriendsComents> FriendComent {  get; set; }
 
     }
 }

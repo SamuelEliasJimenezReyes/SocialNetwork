@@ -11,6 +11,6 @@ namespace SocialNetwork.Core.Domain.Entites
 
         //Navigation Propierties
         public string UserID { get; set; }
-        public ICollection<FriendsComents> FriendComents { get; set; }
+        public string FriendID { get; set; }
     }
 }

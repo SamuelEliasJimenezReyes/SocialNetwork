@@ -28,7 +28,7 @@ namespace SocialNetwork.Core.Application.ViewModels.Users
         public string Username { get; set; }
 
         [Required(ErrorMessage = "You must type a password")]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@!.\-_])[A-Za-z\d@!.\-_]{8,}$", ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).+$", ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

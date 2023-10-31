@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Infraestructure.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using SocialNetwork.Infraestructure.Persistence.Contexts;
 namespace SocialNetwork.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231030214717_Adding FriendID")]
+    partial class AddingFriendID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,6 +90,21 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                     b.ToTable("Friends", (string)null);
                 });
 
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.FriendsComents", b =>
+                {
+                    b.Property<int>("ComentID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FriendID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComentID", "FriendID");
+
+                    b.HasIndex("FriendID");
+
+                    b.ToTable("FriendsComents", (string)null);
+                });
+
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Publications", b =>
                 {
                     b.Property<int>("ID")
@@ -129,6 +147,35 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Publication");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.FriendsComents", b =>
+                {
+                    b.HasOne("SocialNetwork.Core.Domain.Entites.Coments", "Coments")
+                        .WithMany("FriendComent")
+                        .HasForeignKey("ComentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetwork.Core.Domain.Entites.Friends", "Friends")
+                        .WithMany("FriendComents")
+                        .HasForeignKey("FriendID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coments");
+
+                    b.Navigation("Friends");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Coments", b =>
+                {
+                    b.Navigation("FriendComent");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Friends", b =>
+                {
+                    b.Navigation("FriendComents");
                 });
 
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entites.Publications", b =>

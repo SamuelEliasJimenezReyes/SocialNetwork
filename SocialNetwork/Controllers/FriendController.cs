@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.Core.Application.Dtos.Account;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Core.Application.Interfaces.Services;
 using SocialNetwork.Core.Application.ViewModels.Friend;
 
 namespace WebApp.SocialNetwork.Controllers
 {
+    [Authorize]
     public class FriendController : Controller
     {
         private IFriendService _service;
@@ -18,20 +19,26 @@ namespace WebApp.SocialNetwork.Controllers
 
         public async Task<IActionResult> Index() => View(await _service.GetAllViewModel());
 
+
         [HttpPost]
-        public async Task<IActionResult> Find(RegisterRequest value)
+        public async Task<IActionResult> Find()
         {
-            var obj = await _accountService.GetByUserName(value);
+            
+            return View();
+        }
+        public async Task<IActionResult> Add(string UserName)
+        {
+            var obj = await _accountService.GetByUserName(UserName);
 
             AddFriendViewModel vm = new()
             {
-                Name=value.FirstName,
-                LastName= value.LastName,
-                UserName= value.UserName,
+                Name=obj.FirstName,
+                LastName= obj.LastName,
+                UserName= obj.UserName,
             };
+            ViewBag.Friends = await _service.Add(vm);
 
-            await _service.Add(vm);
-            return View();
+            return View("Index");
         }
 
 

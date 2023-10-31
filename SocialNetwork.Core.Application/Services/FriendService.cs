@@ -20,13 +20,16 @@ namespace SocialNetwork.Core.Application.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AuthenticationResponse userViewModel;
         private readonly IMapper _mapper;
+        private readonly IAccountService _accountService;
 
-        public FriendService(IFriendRepository repository, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel, IMapper mapper) : base(repository, mapper)
+
+        public FriendService(IFriendRepository repository, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel, IMapper mapper, IAccountService accountService) : base(repository, mapper)
         {
             _repository = repository;
             _httpContextAccessor = httpContextAccessor;
             this.userViewModel = userViewModel;
             _mapper = mapper;
+            _accountService = accountService;
         }
         public override async Task<AddFriendViewModel> Add(AddFriendViewModel vm)
         {
@@ -38,6 +41,33 @@ namespace SocialNetwork.Core.Application.Services
         {
             userViewModel.Id = vm.UserID;
             await base.Update(vm, id);
+        }
+
+
+
+
+        public async Task<List<FriendViewModel>> GetAllFriends()
+        {
+            var friendlist = await _repository.GetAllAsync();
+            FriendViewModel friend = new();
+            List<FriendViewModel> list = new();
+
+            friendlist = friendlist.Where(f => f.UserName == userViewModel.UserName).ToList();
+
+            if (friendlist.Count > 0)
+            {
+                foreach (var f in friendlist)
+                {
+                    friend.UserName = userViewModel.UserName;
+                    friend.Name = f.Name;
+                    var user = await _accountService.GetByUserName(friend.UserName);
+                    friend.ImagePath = user.ImagePath;
+                    friend.Name = user.FirstName;
+                    friend.LastName = user.LastName;
+                    list.Add(friend);
+                }
+            }
+            return list;
         }
 
     }

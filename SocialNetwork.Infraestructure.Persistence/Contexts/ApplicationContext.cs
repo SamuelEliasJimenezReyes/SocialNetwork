@@ -8,7 +8,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
         public DbSet<Friends> Friends { get; set; }
         public DbSet<Publications> Publications { get; set; }
         public DbSet<Coments> Coments { get; set; }
-        public DbSet<FriendsComents> FriendsComents { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
@@ -19,7 +18,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<Friends>().ToTable("Friends");
             modelBuilder.Entity<Publications>().ToTable("Publications");
             modelBuilder.Entity<Coments>().ToTable("Coments");
-            modelBuilder.Entity<FriendsComents>().ToTable("FriendsComents");
             #endregion
 
             #region Keys
@@ -28,7 +26,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<Friends>().HasKey(x=>x.ID);
             modelBuilder.Entity<Coments>().HasKey(x => x.ID); 
             modelBuilder.Entity<Publications>().HasKey(x=>x.ID);
-            modelBuilder.Entity<FriendsComents>().HasKey(x=>new {x.ComentID,x.FriendID});
             #endregion
 
             #region Relations
@@ -37,19 +34,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
                     .HasMany(x=>x.Coments)
                     .WithOne(x=>x.Publication)
                     .HasForeignKey(x=>x.PublicationID);
-
-
-            modelBuilder.Entity<FriendsComents>()
-                        .HasOne(x => x.Coments)
-                        .WithMany(x=>x.FriendComent)
-                        .HasForeignKey(x=>x.ComentID)
-                        .OnDelete(DeleteBehavior.Cascade);
-
-
-            modelBuilder.Entity<FriendsComents>()
-                    .HasOne(x => x.Friends)
-                    .WithMany(x => x.FriendComents)
-                    .HasForeignKey(x => x.FriendID);
                         
             #endregion
 

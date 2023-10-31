@@ -11,6 +11,6 @@ namespace SocialNetwork.Core.Application.Interfaces.Services
 {
     public interface IFriendService : IBaseService<AddFriendViewModel, FriendViewModel, Friends>
     {
-
+        Task<List<FriendViewModel>> GetAllFriends();
     }
 }

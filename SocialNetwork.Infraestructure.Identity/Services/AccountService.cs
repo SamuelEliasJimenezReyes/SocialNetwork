@@ -224,9 +224,16 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             return verificationUri;
         }
 
-        public async Task<RegisterRequest> GetByUserName(RegisterRequest value)
+        public async Task<RegisterRequest> GetByUserName(string UserName)
         {
-            var result = await _userManager.FindByNameAsync(value.UserName);
+            var obj = await _userManager.FindByNameAsync(UserName);
+            RegisterRequest result = new()
+            {
+                UserName = UserName,
+                ImagePath = obj.ImagePath,
+                FirstName=obj.FirstName,
+                LastName=obj.LastName
+            };
 
             return result;
         }

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using SocialNetwork.Core.Application.Dtos.Account;
 @using SocialNetwork.Core.Application.Helpers;
-@using SocialNetwork.Core.Application.ViewModels.Friend;
-@model RegisterRequest
+@using SocialNetwork.Core.Application.ViewModels.Publications;
+@model FriendsPublicationViewModel
 @inject IHttpContextAccessor httpContextAccessor
 @{
     var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
@@ -10,5 +10,30 @@
     var isBasic = User != null ? User.Roles.Any(r => r == "Basic") : false;
 }
 <div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="fw-bold">Add a publication</h1>
+        </div>
+        <div class="card-body">
+
+            <form method="post" asp-controller="Publication" asp-action="Create" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label asp-for="Content" class="form-label">Publication Content </label>
+                    <input type="text" asp-for="Content" class="form-control" />
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="File" class="form-label">Upload File:</label>
+                    <input asp-for="File" class="form-control" />
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
+
+                <input asp-for="UserID" value=@User.Id type="hidden" />
+
+                <button type="submit" class="btn btn-outline-success">Save</button>
+            </form>
+        </div>
 
 </div>
