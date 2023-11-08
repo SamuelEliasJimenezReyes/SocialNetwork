@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using SocialNetwork.Core.Application.Dtos.Account;
+@using SocialNetwork.Core.Application.Helpers;
+@using SocialNetwork.Core.Application.ViewModels.Friend;
+@model AddFriendViewModel
+<div class="row">
+
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-danger text-light">
+                <h4>Are You Sure that you dont want to be friend of this user?</h4>
+            </div>
+            <div class="card-body">
+
+                <form method="post" asp-controller="Friend" asp-action="Delete">
+
+                    <input type="hidden" asp-for="ID" />
+
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-warning">Go Back</a>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>

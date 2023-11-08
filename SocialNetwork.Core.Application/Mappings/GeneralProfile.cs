@@ -9,6 +9,7 @@ using AutoMapper;
 using SocialNetwork.Core.Domain.Entites;
 using SocialNetwork.Core.Application.ViewModels.Publications;
 using SocialNetwork.Core.Application.ViewModels.Friend;
+using SocialNetwork.Core.Application.ViewModels.Coments;
 
 namespace SocialNetwork.Core.Application.Mappings
 {
@@ -41,12 +42,10 @@ namespace SocialNetwork.Core.Application.Mappings
             #region FriendProfile
             CreateMap<Friends, AddFriendViewModel>()
                         .ReverseMap()
-                        .ForMember(x => x.ID, z => z.Ignore())
                         .ForMember(x => x.IsDeleted, z => z.Ignore());
             CreateMap<Friends, FriendViewModel>()
                         .ReverseMap()
                         .ForMember(x => x.IsDeleted, z => z.Ignore())
-                        .ForMember(x => x.ID, z => z.Ignore())
                         .ForMember(x => x.ID, z => z.Ignore());
 
             #endregion
@@ -67,7 +66,15 @@ namespace SocialNetwork.Core.Application.Mappings
 
 
             #region ComentProfile
+            CreateMap<Coments, ComentsViewModel>()
+                .ReverseMap()
+                .ForMember(x => x.IsDeleted, z => z.Ignore())
+                .ForMember(x => x.ID, z => z.Ignore());
 
+            CreateMap<Coments, SaveComentsViewModel>()
+                .ReverseMap()
+                .ForMember(x => x.IsDeleted, z => z.Ignore())
+                .ForMember(x => x.ID, z => z.Ignore());
             #endregion
         }
     }

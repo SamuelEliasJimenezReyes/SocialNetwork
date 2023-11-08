@@ -12,5 +12,6 @@ namespace SocialNetwork.Core.Application.Interfaces.Services
     {
        Task<List<FriendsPublicationViewModel>> GetAllByFriend(string UserName);
         Task<List<PublicationsViewModel>> GetUserPublications();
+        Task<List<PublicationsViewModel>> GetAllPublicationComments();
     }
 }

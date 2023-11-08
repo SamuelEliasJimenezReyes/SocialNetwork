@@ -18,8 +18,9 @@ namespace SocialNetwork.Core.Application.Services
         private readonly IMapper _mapper;
         private readonly IAccountService _accountService;
         private readonly IFriendService _friendService;
+        private readonly IComentsService _comentService;
 
-        public PublicationService(IPublicationRepository repository, IHttpContextAccessor httpContextAccessor, IMapper mapper, IAccountService accountService, IFriendService friendService) : base(repository, mapper)
+        public PublicationService(IPublicationRepository repository, IHttpContextAccessor httpContextAccessor, IMapper mapper, IAccountService accountService, IFriendService friendService, IComentsService comentService) : base(repository, mapper)
         {
             _repository = repository;
             _httpContextAccessor = httpContextAccessor;
@@ -27,6 +28,7 @@ namespace SocialNetwork.Core.Application.Services
             _mapper = mapper;
             _accountService = accountService;
             _friendService = friendService;
+            _comentService = comentService;
         }
 
         public override async Task<SavePublicationViewModel> Add(SavePublicationViewModel vm)
@@ -46,31 +48,36 @@ namespace SocialNetwork.Core.Application.Services
         public async Task<List<FriendsPublicationViewModel>> GetAllByFriend(string UserName)
         {
             
-            List<FriendsPublicationViewModel> publicationsList = new List<FriendsPublicationViewModel>();
-            var existingUser = await _accountService.GetByUserName(UserName);
+            List<FriendsPublicationViewModel> publicationList = new ();
+            var currentUser = await _accountService.GetByUserName(UserName);
+            FriendsPublicationViewModel publicationFriends = new();
+
 
             var friends = await _friendService.GetAllFriends();
 
-            foreach (var friend in friends)
+            foreach (var item in friends)
             {
-                var publicationsFriends = await _repository.GetAllAsync();
-                foreach (var publications in publicationsFriends)
+                var publicationsFriendsList = await _repository.GetAllAsync();
+                foreach (var publications in publicationsFriendsList)
                 {
-                    var userExisted = userViewModel;    
-                    var friendPost = new FriendsPublicationViewModel()
-                    {
-                       PublicationImagePath= publications.ImagePath,
-                        Content = publications.Content,
-                        PublishDate = publications.PublishDate,
-                        Name = existingUser.FirstName,
-                        LastName = existingUser.LastName,
-                        ImagePath = existingUser.ImagePath,
-                        UserName = userExisted.UserName,
-                    };
-                    publicationsList.Add(friendPost);
+
+                    var finder = await _accountService.GetByUserID(publications.UserID);
+
+
+                    publicationFriends.PublicationImagePath = publications.ImagePath;
+                    publicationFriends.Content = publications.Content;
+                    publicationFriends.PublishDate = publications.PublishDate;
+                    publicationFriends.Name = finder.FirstName;
+                    publicationFriends.LastName = finder.LastName;
+                    publicationFriends.ImagePath = finder.ImagePath;
+                    UserName = finder.UserName;
+                    
+                    publicationList.Add(publicationFriends);
+
                 }
             }
-            return publicationsList.OrderByDescending(x => x.PublishDate).ToList();
+            var linq = publicationList.OrderByDescending(x => x.PublishDate).ToList();
+            return linq;
         }
 
         public async Task<List<PublicationsViewModel>> GetUserPublications()
@@ -85,11 +92,43 @@ namespace SocialNetwork.Core.Application.Services
                     UserID = x.UserID,
                     PublishDate=x.PublishDate,
                     Content=x.Content,
+                    
 
                 }).OrderByDescending(x=>x.PublishDate)
                 .ToList();
+        }
+
+        public async Task<List<PublicationsViewModel>> GetAllPublicationComments()
+        {
+            var list = await _repository.GetAllAsync();
+
+
+            List<PublicationsViewModel> result = new ();
+
+
+            foreach (var item in list)
+            {
+
+                PublicationsViewModel vm = new();
+
+
+                    vm.ImagePath = item.ImagePath;
+                vm.Content = item.Content;
+                vm.PublishDate = item.PublishDate;
+                vm.ID = item.ID;
+                vm.UserID = item.UserID;
+                vm.Coments = await _comentService.GetAllComments(item.ID);
+                
+
+                result.Add(vm);
+
+            }
+
+            return result;
+
 
         }
+
 
     }
 }

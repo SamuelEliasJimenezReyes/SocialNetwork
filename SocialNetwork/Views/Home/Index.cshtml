@@ -2,9 +2,11 @@
 @using SocialNetwork.Core.Application.Dtos.Account;
 @using SocialNetwork.Core.Application.Helpers;
 @using SocialNetwork.Core.Application.ViewModels.Publications;
+@using SocialNetwork.Core.Application.ViewModels.Coments;
 @model SavePublicationViewModel
 @inject IHttpContextAccessor httpContextAccessor
 @{
+    string comment;
     var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
     var isAdmin = User != null ? User.Roles.Any(r => r == "Admin") : false;
     var isBasic = User != null ? User.Roles.Any(r => r == "Basic") : false;
@@ -63,18 +65,27 @@ else
                         <p class="card-text"><small class="text-muted">@item.PublishDate</small></p>
                     </div>
                     <div class="card-footer flex items-center">
-                        <div class="row ">
-                            <img src="https://cdn.iconscout.com/icon/free/png-128/avatar-375-456327.png" class="col-4 img-thumbnail mr-2" style="max-width: 60px; max-height: 60px;" />
-                            <p class="card-text col-8">This is a comment</p>
-                        </div>
-                        <div class="w-8 h-8 bg-blue-500"></div>
+
+                    <form asp-route-PublicationID="@item.ID" asp-route-UserID="@User.Id" method="post" asp-action="Add" asp-controller="Coment">
+                        <label>Type a comment</label>
+                        <input type="text" name="Content"> 
+                        <button type="submit" class="btn btn-outline-success">Upload Comment</button>
+                        @foreach (var publicationComment in item.Coments)
+                        {
+                            <div class="row">
+                                <h5>@publicationComment.UserName</h5>
+                                <img src="@publicationComment.ImagePath" class="col-4 img-thumbnail mr-2" style="max-width: 60px; max-height: 60px;" />
+                                <p class="card-text col-8">@publicationComment.Content</p>
+                            </div>
+                        }
+                    </form>                        <div class="w-8 h-8 bg-blue-500"></div>
                     </div>
                 </div>
         }
         else
         {
             <div class="card mb-3 align-self-auto mx-auto" style="max-width: 500px; max-height: 500px;">
-                <img src="@item.ImagePath" class="card-img-top" alt="..." style="max-width: 500px; max-height: 500px;">
+                <img src="@item.ImagePath" class="card-img-top" alt="..." style="max-width: 100px; max-height: 100px;">
                 <div class="card-body">
                     <div class="btn-group-sm" role="group" aria-label="Buttons">
                         <a asp-controller="Publication" asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.ID">Delete</a>
@@ -85,14 +96,23 @@ else
                     <p class="card-text"><small class="text-muted">@item.PublishDate</small></p>
                 </div>
                 <div class="card-footer flex items-center">
-                    <div class="row ">
-                        <img src="https://cdn.iconscout.com/icon/free/png-128/avatar-375-456327.png" class="col-4 img-thumbnail mr-2" style="max-width: 60px; max-height: 60px;" />
-                        <p class="card-text col-8">This is a comment</p>
-                    </div>
-                    <div class="w-8 h-8 bg-blue-500"></div>
+                    <form asp-route-PublicationID="@item.ID" asp-route-UserID="@User.Id" method="post" asp-action="Add" asp-controller="Coment">
+                        <label>Type a comment</label>
+                        <input type="text" name="Content"> 
+                        <button type="submit" class="btn btn-outline-success">Upload Comment</button>
+                        @foreach (var publicationComment in item.Coments)
+                        {
+                            <div class="row">
+                                <h5>@publicationComment.UserName</h5>
+                                <img src="@publicationComment.ImagePath" class="col-4 img-thumbnail mr-2" style="max-width: 60px; max-height: 60px;" />
+                                <p class="card-text col-8">@publicationComment.Content</p>
+                            </div>
+                        }
+                    </form>                    <div class="w-8 h-8 bg-blue-500"></div>
                 </div>
             </div>
         }
     }   
 
 }
+

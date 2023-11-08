@@ -16,7 +16,7 @@ namespace SocialNetwork.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AuthenticationResponse userViewModel;
 
-        public HomeController(IPublicationService service, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel)
+        public HomeController(IPublicationService service, IHttpContextAccessor httpContextAccessor)
         {
             _service = service;
             _httpContextAccessor = httpContextAccessor;
@@ -26,7 +26,7 @@ namespace SocialNetwork.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var list = await _service.GetUserPublications();
+            var list = await _service.GetAllPublicationComments();
 
             ViewBag.Publications = list.Where(x=>x.UserID==userViewModel.Id);
             

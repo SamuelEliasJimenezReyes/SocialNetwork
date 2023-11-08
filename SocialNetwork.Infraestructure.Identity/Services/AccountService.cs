@@ -232,7 +232,23 @@ namespace SocialNetwork.Infraestructure.Identity.Services
                 UserName = UserName,
                 ImagePath = obj.ImagePath,
                 FirstName=obj.FirstName,
-                LastName=obj.LastName
+                LastName=obj.LastName,
+                ID=obj.Id
+            };
+
+            return result;
+        }
+
+        public async Task<RegisterRequest> GetByUserID(string UserID)
+        {
+            var obj = await _userManager.FindByIdAsync(UserID);
+            RegisterRequest result = new()
+            {
+                UserName = obj.UserName,
+                ImagePath = obj.ImagePath,
+                FirstName = obj.FirstName,
+                LastName = obj.LastName,
+                ID=obj.Id
             };
 
             return result;

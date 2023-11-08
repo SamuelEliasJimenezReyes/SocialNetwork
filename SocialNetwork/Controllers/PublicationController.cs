@@ -32,9 +32,6 @@ namespace WebApp.SocialNetwork.Controllers
 
             }
 
-            //vm.ImagePath = UploadFile(vm.File, vm.UserID, true, vm.ImagePath);
-            //await _service.Update(vm, vm.ID);
-
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
         [HttpPost]

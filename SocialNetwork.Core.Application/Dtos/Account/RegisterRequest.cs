@@ -9,6 +9,7 @@ namespace SocialNetwork.Core.Application.Dtos.Account
     public class RegisterRequest
     {
         public string FirstName { get; set; }
+        public string ID { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }

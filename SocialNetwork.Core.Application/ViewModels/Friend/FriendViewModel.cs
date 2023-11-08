@@ -14,6 +14,7 @@ namespace SocialNetwork.Core.Application.ViewModels.Friend
 
 
         public string Name { get; set; }
+        public int ID { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
 

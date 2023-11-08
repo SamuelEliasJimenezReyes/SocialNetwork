@@ -15,6 +15,7 @@ namespace SocialNetwork.Core.Application
             services.AddTransient<IUserService, UserService>();
             services.AddScoped<IPublicationService, PublicationService>();
             services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<IComentsService, ComentService>();
             #endregion
         }
     }
